@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingBottom="0dp"
+    android:paddingEnd="0dp"
+    android:paddingLeft="0dp"
+    android:paddingMode="nest"
+    android:paddingRight="0dp"
+    android:paddingStart="0dp"
+    android:paddingTop="0dp">
+
+
+    <item
+        android:width="300dp"
+        android:height="300dp">
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="2dp"
+                android:color="@color/colorAccent30" />
+            <solid android:color="@color/colorAccent05"/>
+        </shape>
+    </item>
+
+    <item>
+    <layer-list>
+    <item android:top="-100dp">
+        <shape android:shape="line">
+            <stroke
+                android:width="5dp"
+                android:color="@color/colorPrimaryDark" />
+        </shape>
+    </item>
+    <item android:top="100dp">
+        <shape android:shape="line">
+            <stroke
+                android:width="5dp"
+                android:color="@color/colorPrimaryDark" />
+        </shape>
+    </item>
+    </layer-list>
+    </item>
+
+    <item>
+        <rotate android:pivotX="50%" android:pivotY="50%" android:fromDegrees="90">
+        <layer-list>
+            <item android:top="-100dp">
+                <shape android:shape="line">
+                    <stroke
+                        android:width="5dp"
+                        android:color="@color/colorPrimaryDark" />
+                </shape>
+            </item>
+            <item android:top="100dp">
+                <shape android:shape="line">
+                    <stroke
+                        android:width="5dp"
+                        android:color="@color/colorPrimaryDark" />
+                </shape>
+            </item>
+        </layer-list>
+        </rotate>
+    </item>
+
+    <!--<item android:left="-100dp">-->
+        <!--<inset xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:drawable="@drawable/vertical_line"-->
+            <!--/>-->
+    <!--</item>-->
+
+    <!--<item>-->
+        <!--<inset xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:drawable="@drawable/vertical_line"-->
+            <!--/>-->
+    <!--</item>-->
+
+
+
+
+</layer-list>
