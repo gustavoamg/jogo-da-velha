@@ -4,7 +4,7 @@ package br.com.amgsolution.gustavo.jogodavelha.game;
  * Created by gustavoamg on 13/09/17.
  */
 
-public class TicTacToe {
+public class TicTackToe {
     public static final int LINE_1 = 1;
     public static final int LINE_2 = 2;
     public static final int LINE_3 = 3;
@@ -22,11 +22,11 @@ public class TicTacToe {
     private int circleScore;
     private int crossScore;
 
-    public TicTacToe() {
+    public TicTackToe() {
         this(0,0);
     }
 
-    public TicTacToe(int circleScore, int crossScore) {
+    public TicTackToe(int circleScore, int crossScore) {
         this.circleScore = circleScore;
         this.crossScore = crossScore;
         this.playerSimbol = Player.CIRCLE;
@@ -68,11 +68,8 @@ public class TicTacToe {
     }
 
     private boolean selectPosition(int positionX, int positionY) {
-        if(positionX > 3 || positionY > 3 || positionX <= 0 || positionY <= 0)
+        if(positionX >= 3 || positionY >= 3 || positionX < 0 || positionY < 0)
             return false;
-
-        positionX--;
-        positionY--;
 
         if(gridMatrix[positionY][positionX] != PositionState.EMPTY)
             return false;
