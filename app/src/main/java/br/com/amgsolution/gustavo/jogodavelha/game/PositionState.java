@@ -16,5 +16,17 @@ public enum PositionState {
         this.player = player;
     }
 
+    @Override
+    public String toString() {
+        switch (this) {
+            case EMPTY:
+                return " ";
+            case CIRCLE:
+                return "O";
+            case  CROSS:
+                return "X";
+        }
 
+        return null;
+    }
 }

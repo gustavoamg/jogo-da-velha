@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import java.lang.ref.WeakReference;
 
 import br.com.amgsolution.gustavo.jogodavelha.game.Player;
 import br.com.amgsolution.gustavo.jogodavelha.game.PositionState;
@@ -34,36 +34,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(savedInstanceState == null) {
 
-            grid = (RelativeLayout) findViewById(R.id.grid);
-            grid.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        Log.i("TOUCH EVENT", "Touch coordinates : " +
-                                String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
+        grid = (RelativeLayout) findViewById(R.id.grid);
+        grid.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.i("TOUCH EVENT", "Touch coordinates : " +
+                            String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
 
-                        processTurn(v.getWidth(), v.getHeight(), event.getX(), event.getY());
-                    }
-                    return true;
+                    processTurn(v.getWidth(), v.getHeight(), event.getX(), event.getY());
                 }
-            });
+                return true;
+            }
+        });
 
-            newGameBt = (Button) findViewById(R.id.new_game_button);
-            newGameBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    gameEngine.startNewGame(Player.CIRCLE);
-                    updateGridView();
-                }
-            });
+        newGameBt = (Button) findViewById(R.id.new_game_button);
+        newGameBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gameEngine.startNewGame(Player.CIRCLE);
+                updateGridView();
+            }
+        });
 
-            circleScore = (TextView) findViewById(R.id.circle_score_counter);
-            crossScore = (TextView) findViewById(R.id.cross_score_counter);
+        circleScore = (TextView) findViewById(R.id.circle_score_counter);
+        crossScore = (TextView) findViewById(R.id.cross_score_counter);
 
-            gameEngine = new TicTackToe();
-        }
+        gameEngine = new TicTackToe();
+
     }
 
     private void processTurn(float width, float height, float touchX, float touchY) {
@@ -76,17 +75,31 @@ public class MainActivity extends AppCompatActivity {
 
         updateGridView();
 
-        if(result != 0) {
-            //jogada final
-            //circleScore.setText(gameEngine.getCircleScore());
-            //crossScore.setText(gameEngine.getCrossScore());
+        if(!checkEndOfGame(result)){
+            if (gameEngine.getGameMode() == TicTackToe.Mode.SINGLE_PLAYER && gameEngine.getPlayerTurn() == Player.CROSS) {
+                result = gameEngine.makeComputerMove();
 
-            if(result != 9) {
-                Toast.makeText(this, "Vencedor!", Toast.LENGTH_LONG).show();
+                updateGridView();
+
+                checkEndOfGame(result);
             }
-            else
-                Toast.makeText(this, "Deu Velha!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private boolean checkEndOfGame(int result) {
+        if (result != 0) {
+            //jogada final
+            circleScore.setText(String.valueOf(gameEngine.getCircleScore()));
+            crossScore.setText(String.valueOf(gameEngine.getCrossScore()));
+
+            if (result != 9) {
+                Toast.makeText(this, "Vencedor!", Toast.LENGTH_LONG).show();
+                return true;
+            } else
+                Toast.makeText(this, "Deu Velha!", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
     }
 
     private void updateGridView() {
@@ -106,14 +119,14 @@ public class MainActivity extends AppCompatActivity {
         imageBoard.setImageResource(R.drawable.grid);
         grid.addView(imageBoard);
 
-        for (int i = 0 ; i < 3; i++){
-            for (int j = 0 ; j < 3; j++){
-                if(currentGrid[i][j] != PositionState.EMPTY){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (currentGrid[i][j] != PositionState.EMPTY) {
                     ImageView image = new ImageView(this);
                     RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(px, px);
                     lp.setMargins(marginPx + (positionWidth * j), marginPx + (positionWidth * i), 0, 0);
                     image.setLayoutParams(lp);
-                    if(currentGrid[i][j].player == Player.CIRCLE)
+                    if (currentGrid[i][j].player == Player.CIRCLE)
                         image.setImageResource(R.drawable.circle);
                     else
                         image.setImageResource(R.drawable.cross);
